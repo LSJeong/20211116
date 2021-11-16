@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.lsj.prj.member.service.MemberMapper">
+	<select id="memberSelectList" resultType="co.lsj.prj.member.service.MemberVO">
+		SELECT * FROM MEMBER
+	</select>
+	<select id="memberSelect" resultType="co.lsj.prj.member.service.MemberVO">
+		SELECT * FROM MEMBER 
+		WHERE ID = #{id}
+		<if test="password != null">   <!-- 로그인 체크시 활용 -->
+			AND PASSWORD = #{password}
+		</if>
+	</select>
+	<insert id="memberInsert" parameterType="co.lsj.prj.member.service.MemberVO">
+		INSERT INTO MEMBER VALUES(#{id}, #{password}, #{name}, #{tel}, #{address}, #{author})
+	</insert>
+	<delete id="memberDelete" parameterType="co.lsj.prj.member.service.MemberVO">
+		DELETE FROM MEMBER WHERE ID = #{id}
+	</delete>
+	<update id="memberUpdate" parameterType="co.lsj.prj.member.service.MemberVO">
+		UPDATE MEMBER SET PASSWORD = #{password}, NAME = #{name}, TEL = #{tel}, ADDRESS = #{address}, AUTHOR = #{author}
+		WHERE ID = #{id}
+	</update>
+	<select id="memberIdCheck" resultType="boolean">
+		SELECT IF(COUNT(*)=1, 1, 0)  <!-- 아이디가 존재하면 1(true), 없으면(false) -->
+		FROM MEMBER
+		WHERE ID = #{id}
+	</select>
+	<!-- ctl+shift+x : 영어 소문자친거 대문자로 만들수있음 -->
+</mapper>
